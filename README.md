@@ -222,7 +222,7 @@
                         Instalar
                     </button>
                     <!-- Enlace oculto para la descarga real -->
-                    <a id="download-link" href="apk/app-debug.apk" download class="hidden"></a>
+                    <a id="download-link" href="apk/PurificApp.apk" download class="hidden"></a>
                 </div>
 
                 <!-- Carrusel de Screenshots -->
