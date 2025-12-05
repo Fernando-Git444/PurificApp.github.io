@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,11 +17,13 @@
             background-color: #f0f2f5;
         }
         
+        /* Utilidades */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .text-play-green { color: #01875f; }
         .bg-play-green { background-color: #01875f; }
         
+        /* Contenedor Móvil */
         .mobile-container {
             max-width: 480px;
             margin: 0 auto;
@@ -33,6 +34,7 @@
             overflow: hidden; 
         }
 
+        /* Animación de carga circular */
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-spinner {
             border: 3px solid #e5e7eb;
@@ -43,6 +45,7 @@
             animation: spin 1s linear infinite;
         }
 
+        /* Animación de transición entre vistas */
         .view-section {
             transition: transform 0.3s ease-in-out, opacity 0.3s;
             width: 100%;
@@ -58,6 +61,7 @@
         .view-hidden-left { transform: translateX(-100%); opacity: 0; pointer-events: none; }
         .view-active { transform: translateX(0); opacity: 1; pointer-events: auto; position: relative; }
 
+        /* Barra de progreso de descarga */
         .progress-bar-container {
             width: 100%;
             height: 4px;
@@ -121,12 +125,12 @@
                     <h3 class="font-medium text-lg text-gray-900 mb-3">Sugerencias para ti</h3>
                     <div class="flex overflow-x-auto hide-scrollbar space-x-4 pb-2">
                         <!-- App 1 -->
-                        <div class="flex flex-col w-24 flex-shrink-0 cursor-pointer" onclick="goToAppDetail()">
+                        <div class="flex flex-col w-24 flex-shrink-0" onclick="goToAppDetail()">
                             <div class="w-24 h-24 rounded-2xl bg-gray-100 mb-2 overflow-hidden relative shadow-sm">
                                 <i class="fa-brands fa-android text-4xl text-green-600 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></i>
                             </div>
                             <span class="text-xs text-gray-900 font-medium truncate">App Debug</span>
-                            <span class="text-xs text-gray-500">15 MB</span>
+                            <span class="text-xs text-gray-500">45 MB</span>
                         </div>
                          <!-- App 2 -->
                          <div class="flex flex-col w-24 flex-shrink-0">
@@ -186,6 +190,7 @@
             <div class="px-5 py-4">
                 <div class="flex mb-6">
                     <div class="w-20 h-20 rounded-xl bg-gray-900 flex items-center justify-center flex-shrink-0 shadow-md">
+                        <!-- ICONO DE LA APP -->
                         <i class="fa-brands fa-android text-4xl text-green-400"></i>
                     </div>
                     <div class="ml-5 flex flex-col justify-center">
@@ -223,17 +228,22 @@
                         Instalar
                     </button>
                     <!-- Enlace oculto para la descarga real -->
-                    <a id="download-link" href="apk/PurificApp.apk" download class="hidden"></a>
+                    <a id="download-link" href="apk/PurificApp.apk" download class="hidden">
+
+                    </a>
                 </div>
 
                 <!-- Carrusel de Screenshots -->
                 <div class="flex overflow-x-auto hide-scrollbar space-x-3 mb-6">
+                    <!-- Screenshot 1 -->
                     <div class="w-28 h-48 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center border border-gray-300">
                         <i class="fa-solid fa-image text-gray-400 text-2xl"></i>
                     </div>
+                    <!-- Screenshot 2 -->
                     <div class="w-28 h-48 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center border border-gray-300">
                         <i class="fa-solid fa-image text-gray-400 text-2xl"></i>
                     </div>
+                    <!-- Screenshot 3 -->
                     <div class="w-28 h-48 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center border border-gray-300">
                         <i class="fa-solid fa-image text-gray-400 text-2xl"></i>
                     </div>
@@ -288,6 +298,7 @@
         const homeView = document.getElementById('home-view');
         const detailView = document.getElementById('detail-view');
 
+        // Navegación: Ir al detalle
         function goToAppDetail() {
             homeView.classList.remove('view-active');
             homeView.classList.add('view-hidden-left');
@@ -295,9 +306,11 @@
             detailView.classList.remove('view-hidden-right');
             detailView.classList.add('view-active');
             
+            // Scroll al top
             window.scrollTo(0,0);
         }
 
+        // Navegación: Volver atrás
         function goBack() {
             detailView.classList.remove('view-active');
             detailView.classList.add('view-hidden-right');
@@ -306,19 +319,23 @@
             homeView.classList.add('view-active');
         }
 
+        // Lógica de Descarga Simulada + Real
         function startDownload() {
             const btn = document.getElementById('install-btn');
             const progressContainer = document.getElementById('download-progress');
             const progressFill = document.getElementById('progress-fill');
             const link = document.getElementById('download-link');
             
+            // Evitar múltiples clics
             if (btn.disabled) return;
 
+            // 1. Estado "Pendiente"
             btn.disabled = true;
             btn.innerHTML = '<span class="text-gray-500">Pendiente...</span>';
             btn.classList.remove('bg-[#01875f]', 'text-white');
             btn.classList.add('bg-gray-100', 'border', 'border-gray-200');
 
+            // 2. Simulación de descarga (Barra de progreso)
             progressContainer.style.display = 'block';
             
             let width = 0;
@@ -327,29 +344,35 @@
                     clearInterval(interval);
                     finishDownload();
                 } else {
-                    width += Math.random() * 5;
+                    width += Math.random() * 5; // Velocidad aleatoria
                     progressFill.style.width = width + '%';
                     
+                    // Mostrar porcentaje en botón
                     if(width < 90) {
-                        btn.innerHTML = `<span class="text-xs text-[#01875f] font-bold">${Math.round(width)}% de 15 MB</span>`;
+                        btn.innerHTML = <span class="text-xs text-[#01875f] font-bold">${Math.round(width)}% de 15 MB</span>;
                     } else {
-                        btn.innerHTML = '<span class="text-xs text-[#01875f] font-bold">Instalando...</span>';
+                        btn.innerHTML = <span class="text-xs text-[#01875f] font-bold">Instalando...</span>;
                     }
                 }
             }, 100);
 
             function finishDownload() {
+                // 3. Descarga completada
                 progressContainer.style.display = 'none';
                 
+                // Cambiar botón a "Abrir"
                 btn.innerHTML = 'Abrir';
                 btn.classList.remove('bg-gray-100', 'text-[#01875f]', 'border', 'border-gray-200');
                 btn.classList.add('bg-[#01875f]', 'text-white', 'shadow-md');
                 btn.disabled = false;
                 
+                // Cambiar la función del botón para que ahora "abra" la app (o recargue)
                 btn.onclick = function() {
                     alert("Abriendo la aplicación...");
                 };
 
+                // 4. TRIGGER DE LA DESCARGA REAL
+                // Esto intenta descargar el archivo 'app-debug.apk' si existe
                 try {
                     link.click();
                     showToast("Descarga iniciada: app-debug.apk");
@@ -372,4 +395,3 @@
     </script>
 </body>
 </html>
-```
